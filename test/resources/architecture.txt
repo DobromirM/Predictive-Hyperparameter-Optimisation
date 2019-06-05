@@ -1,0 +1,15 @@
+<<<<<START>>>>>
+---Input---(1)
+InputLayer(shape=(32, 32, 3))
+---Main---(1)
+-Unit-(5)
+ConvLayer(filters=64; kernel_size=(3, 3); strides=(2, 2))
+BatchNormalizationLayer(momentum=0.999)
+PoolingLayer(operation="max"; pool_size=(2, 2); strides=(2, 2))
+DropoutLayer(rate=0.2)
+ActivationLayer(func="relu")
+---Output---(3)
+FlattenLayer()
+DenseLayer(nodes=10)
+ActivationLayer(func="softmax")
+<<<<<END>>>>>
