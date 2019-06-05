@@ -47,8 +47,8 @@ def get_image_data(data_set, num_classes):
 
 
 if __name__ == '__main__':
-    seed(14)
-    set_random_seed(14)
+    seed(1337)
+    set_random_seed(1337)
 
     num_classes = 10
     x_train, y_train, x_test, y_test = get_image_data('cifar10', num_classes)

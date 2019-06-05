@@ -4,6 +4,8 @@
 
 Implementation of a newly developed Predictive Hyperparameter Optimisation algorithm.
 
+https://pypi.org/project/predictiveopt/
+
 ## Installation
 
 `pip install predictiveopt`

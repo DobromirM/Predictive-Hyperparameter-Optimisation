@@ -8,7 +8,7 @@ def define_hp_searcher_simulation():
 
 
 def define_hp_searcher_normal():
-    return PredictiveHyperOpt(total_models_count=50, full_models_count=5, final_epoch=10, partial_epochs=[2, 1], final_models_count=5,
+    return PredictiveHyperOpt(total_models_count=100, full_models_count=5, final_epoch=10, partial_epochs=[2, 1], final_models_count=10,
                               batch_size=250)
 
 
@@ -28,7 +28,7 @@ def calculate_random_search(accuracies, sample_size=45):
     return round(cumulative_value / total_choices * 100, ndigits=2)
 
 
-def perform_random_search(generator, x_train, y_train, x_test, y_test, count=20, epochs=10, batch_size=250):
+def perform_random_search(generator, x_train, y_train, x_test, y_test, count=32, epochs=10, batch_size=250):
     final_accuracies = list()
 
     for i in range(0, count):
