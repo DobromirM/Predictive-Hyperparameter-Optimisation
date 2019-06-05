@@ -1,10 +1,12 @@
 # Predictive Hyper Parameter Optimisation
 
+[![Build Status](https://travis-ci.org/DobromirM/Predictive-Hyperparameter-Optimisation.svg?branch=master)](https://travis-ci.org/DobromirM/Predictive-Hyperparameter-Optimisation)
+
 Implementation of a newly developed Predictive Hyperparameter Optimisation algorithm.
 
 ## Installation
 
-`pip install `
+`pip install predictiveopt`
 
 
 ## Building instructions
