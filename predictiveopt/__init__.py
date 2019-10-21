@@ -1,1 +1,1 @@
-from algorithm import PredictiveHyperOpt
+from .algorithm import PredictiveHyperOpt

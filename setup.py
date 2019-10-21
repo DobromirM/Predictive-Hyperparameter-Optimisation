@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='predictiveopt',
-    version='0.0.2',
+    version='0.0.3',
     author='Dobromir Marinov',
     author_email='mr.d.marinov@gmail.com',
     description='Package containing an implementation of the Predictive Hyperparameter Optimisation algorithm.',
