@@ -30,7 +30,7 @@ class TestAlgorithm(unittest.TestCase):
 
     def test_real(self):
         # Given
-        expected = 30.8
+        expected = 30.6
         expected_architecture = CnnBaseArchitecture((32, 32, 3), 10)
         expected_architecture = expected_architecture.build_from_file('test/resources/expected_architecture.txt')
         seed(13)
