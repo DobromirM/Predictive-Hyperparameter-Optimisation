@@ -5,12 +5,13 @@ from boarml.generators import ModelGenerator
 import tensorflow as tf
 import numpy as np
 
-from numpy.random import seed
-from tensorflow import set_random_seed
 from examples.helper import define_hp_searcher_normal, perform_random_search
-
+import time
 
 # Preparing the data
+from predictiveopt import PredictiveHyperOpt
+
+
 def get_image_data(data_set, num_classes):
     if data_set == 'mnist':
         (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
@@ -47,11 +48,12 @@ def get_image_data(data_set, num_classes):
 
 
 if __name__ == '__main__':
-    seed(1337)
-    set_random_seed(1337)
-
     num_classes = 10
-    x_train, y_train, x_test, y_test = get_image_data('cifar10', num_classes)
+    epochs = 100
+    batch_size = 512
+
+    x_train, y_train, x_test, y_test = get_image_data('mnist', num_classes)
+
     x_train = x_train[0:1000]
     y_train = y_train[0:1000]
 
@@ -59,25 +61,35 @@ if __name__ == '__main__':
     y_test = y_test[0:500]
 
     shape = x_train.shape[1:]
-    batch_size = 128
 
     # Creating the architecture from file
-    arch = CnnBaseArchitecture((32, 32, 3), 10)
+    arch = CnnBaseArchitecture(shape, 10)
     arch = arch.build_from_file('architecture.txt')
 
     # Creating the generator
-    generator = ModelGenerator(arch, 'keras', removal_rate=0.2, duplication_rate=0.2, amendment_rate=0.5, seed=13)
+    generator = ModelGenerator(arch, 'keras', removal_rate=0.2, duplication_rate=0.2, amendment_rate=0.5)
 
     # Performing Predictive Hyper Opt
-    hp_searcher = define_hp_searcher_normal()
+    hp_searcher = PredictiveHyperOpt(total_models_count=100, full_models_count=10, final_epoch=epochs,
+                                     partial_epochs=[2, 1], final_models_count=10,
+                                     batch_size=batch_size)
+
+    start_time = time.time()
     accuracy, architecture = hp_searcher.run(generator, x_train, y_train, x_test, y_test)
+    pred_opt_time = time.time() - start_time
+
+    print(f'Predictive opt finished in {pred_opt_time}')
 
     # Performing Random Search
-    generator_for_random = ModelGenerator(arch, 'keras', removal_rate=0.2, duplication_rate=0.2, amendment_rate=0.5, seed=13)
-    random_search_accuracy = perform_random_search(generator_for_random, x_train, y_train, x_test, y_test)
+    generator_for_random = ModelGenerator(arch, 'keras', removal_rate=0.2, duplication_rate=0.2, amendment_rate=0.5)
+    random_search_accuracy = perform_random_search(generator, x_train, y_train, x_test, y_test,
+                                                   total_time=pred_opt_time,
+                                                   epochs=epochs,
+                                                   batch_size=batch_size)
 
     print('\n\n\n\n\n')
     print(f'Accuracy for Random Search: {random_search_accuracy}%')
+
     print(f'Accuracy for Predictive Hyper Opt: {accuracy}%')
     print('\n')
     print(architecture)

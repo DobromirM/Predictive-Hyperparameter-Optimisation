@@ -55,6 +55,7 @@ class PredictiveHyperOpt:
         models_pool = list()
 
         for i in range(0, self.total_models_count):
+            print(f'\nPredictive search partial: {i}')
             model = generator.create_mutated_model()
 
             stats = model.fit(x_train, y_train, self.partial_epochs[0], self.batch_size)
@@ -71,8 +72,9 @@ class PredictiveHyperOpt:
 
         full_model_indexes = x_internal_train.index.values
 
-        for i in full_model_indexes:
-            model = models_pool[i]
+        for i, idx in enumerate(full_model_indexes):
+            print(f'\nPredictive search full: {i}')
+            model = models_pool[idx]
             model.fit(x_train, y_train, self.final_epoch - self.partial_epochs[0], self.batch_size)
             validation_stats = model.evaluate(x_test, y_test)
             y_internal_train.append(validation_stats[1])
@@ -89,6 +91,7 @@ class PredictiveHyperOpt:
         final_accuracies = list()
 
         for i in range(0, self.final_models_count):
+            print(f'\nPredictive search final: {i}')
             evaluation_index = int(predictions_sorted.iloc[i, :]['index'])
             model = models_pool[evaluation_index]
             model.fit(x_train, y_train, self.final_epoch - self.partial_epochs[0], self.batch_size)
