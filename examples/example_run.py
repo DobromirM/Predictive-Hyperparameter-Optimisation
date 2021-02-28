@@ -54,12 +54,6 @@ if __name__ == '__main__':
 
     x_train, y_train, x_test, y_test = get_image_data('mnist', num_classes)
 
-    x_train = x_train[0:1000]
-    y_train = y_train[0:1000]
-
-    x_test = x_test[0:500]
-    y_test = y_test[0:500]
-
     shape = x_train.shape[1:]
 
     # Creating the architecture from file
